@@ -11,12 +11,25 @@ export const PokemonDetails = () => {
   };
 
   const [Pokename, setPokename] = useState("");
+  const [PokeType, setPokeType] = useState([]);
+
   const fetchPokemon = async (numero: string) => {
     try {
-      const {data} = await axios.get(`https://pokeapi.co/api/v2/pokemon/${numero}`)
-      const {name} = data
-      setPokename(name)
-      return name;
+      if (inputPokeNumber <= "1010"){
+
+        const {data} = await axios.get(`https://pokeapi.co/api/v2/pokemon/${numero}`)
+        if (inputPokeNumber){
+          
+          const {name, types} = data
+          let typesArray: any = []
+          types.map((e: any) => {
+            typesArray.push(e.type.name);
+          })
+          setPokeType(typesArray)
+          setPokename(name)
+          return name;
+        }
+      }
     } catch (error) {
       throw error
     }
@@ -30,9 +43,12 @@ export const PokemonDetails = () => {
 
   return (
     <>
+        <p>input a pokemon number less or equal to 1010</p>
         <input type="text" onChange={handleChange} value={inputPokeNumber} />
         {/* <button onClick={() => fetchPokemon(inputPokeNumber)} >procurar pelo pokemon de codigo {inputPokeNumber}</button> */}
-        <p>{Pokename}</p>
+        <p>{`Pokemon Name:  ${Pokename}`}</p>
+        <p>{`Pokemon Types:  ${PokeType}`}</p>
+        
     </>
   )
 }
