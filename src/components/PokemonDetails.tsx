@@ -4,8 +4,8 @@ import axios from 'axios'
 export const PokemonDetails = () => {
 
 
-  
   const [inputPokeNumber, setinputPokeNumber] = useState("");
+  
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setinputPokeNumber(e.target.value);
   };
@@ -21,13 +21,17 @@ export const PokemonDetails = () => {
       throw error
     }
   }
-
+  
+  useEffect(() => {
+    fetchPokemon(inputPokeNumber)
+    
+  }, [inputPokeNumber])
 
 
   return (
     <>
         <input type="text" onChange={handleChange} value={inputPokeNumber} />
-        <button onClick={() => fetchPokemon(inputPokeNumber)} >procurar pelo pokemon de codigo {inputPokeNumber}</button>
+        {/* <button onClick={() => fetchPokemon(inputPokeNumber)} >procurar pelo pokemon de codigo {inputPokeNumber}</button> */}
         <p>{Pokename}</p>
     </>
   )
