@@ -4,51 +4,59 @@ import axios from 'axios'
 export const PokemonDetails = () => {
 
 
-  const [inputPokeNumber, setinputPokeNumber] = useState("");
-  
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setinputPokeNumber(e.target.value);
-  };
-
+  const [inputPokeNumber, setinputPokeNumber] = useState(25);
   const [Pokename, setPokename] = useState("");
   const [PokeType, setPokeType] = useState([]);
+  const [PokeImage, setPokeImage] = useState("")
+  const typesArray: any = []
 
-  const fetchPokemon = async (numero: string) => {
+  function atualizaInfo(){
+    let entrada = parseInt((document.getElementById("Input") as HTMLInputElement).value)
+    const mensagem = `
+    Insira um valor válido!
+
+    --> [ Os Pokemons vão de 1 até 1010 ]
+    `
+    entrada ? (entrada > 0 && entrada < 1010 ? setinputPokeNumber(entrada):(setTimeout(()=>{alert(mensagem)},500)) ) : setinputPokeNumber(25)
+  }
+
+  const fetchPokemon = async () => {
     try {
-      if (inputPokeNumber <= "1010"){
-
-        const {data} = await axios.get(`https://pokeapi.co/api/v2/pokemon/${numero}`)
-        if (inputPokeNumber){
-          
-          const {name, types} = data
-          let typesArray: any = []
-          types.map((e: any) => {
-            typesArray.push(e.type.name);
-          })
-          setPokeType(typesArray)
-          setPokename(name)
-          return name;
-        }
-      }
+      const {data} = await axios.get(`https://pokeapi.co/api/v2/pokemon/${inputPokeNumber}`)
+      
+      const {name, types, sprites} = data;
+      
+      setPokename(name)
+      setPokeImage(sprites.other.dream_world.front_default)
+  
+      types.forEach((e:any) => {
+        typesArray.push(e.type.name + ', ')
+      });
+      
+      setPokeType(typesArray)
     } catch (error) {
       throw error
     }
   }
   
   useEffect(() => {
-    fetchPokemon(inputPokeNumber)
+    fetchPokemon()
     
   }, [inputPokeNumber])
 
 
   return (
     <>
-        <p>input a pokemon number less or equal to 1010</p>
-        <input type="text" onChange={handleChange} value={inputPokeNumber} />
-        {/* <button onClick={() => fetchPokemon(inputPokeNumber)} >procurar pelo pokemon de codigo {inputPokeNumber}</button> */}
-        <p>{`Pokemon Name:  ${Pokename}`}</p>
-        <p>{`Pokemon Types:  ${PokeType}`}</p>
-        
+    <div className="container_Card">
+        <div className="container_left">
+            <div className="name style_fields">{Pokename}</div>
+            <img className="pokedexCardImage style_fields" src={PokeImage}/>
+            <div className="info style_fields">{PokeType}</div>
+            <input type={"number"} className="input style_fields" id="Input" onChange={atualizaInfo} placeholder="Search by number (1, 1010)"/>
+        </div>
+
+        <div className="container_right"></div>
+    </div>
     </>
   )
 }
