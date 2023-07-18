@@ -26,25 +26,20 @@ export const PokemonDetails = () => {
       setinputPokeNumber(25)
     }
   } 
-  
 
   const fetchPokemon = async () => {
     setIsLoading(true)
     try {
       const {data} = await axios.get(`https://pokeapi.co/api/v2/pokemon/${inputPokeNumber}`)
-      
       const {name, types, sprites} = data;
-      
+
       setPokename(`${name} - ${inputPokeNumber}`)
       setPokeImage(sprites.other.dream_world.front_default)
-  
       types.forEach((e:any) => {
         typesArray.push(e.type.name + ', ')
       });
-      
       setPokeType(typesArray)
       setIsLoading(false)           
-
     } catch (error) {
       setIsLoading(false)
       throw error;
@@ -53,15 +48,12 @@ export const PokemonDetails = () => {
   
   useEffect(() => {
     fetchPokemon()
-    
   }, [inputPokeNumber])
-
 
   return (
     <>
     <div className="container_Card">
         <div className="container_left">
-           
             {isloading ?
               <>
               <p className="name style_fields">Loading...</p>
@@ -77,7 +69,6 @@ export const PokemonDetails = () => {
             }
         <input type={"number"} className="input style_fields" id="Input" onChange={atualizaInfo} placeholder="Search by number (1, 1010)"/>
         </div>
-
         <div className="container_right"></div>
     </div>
     </>
