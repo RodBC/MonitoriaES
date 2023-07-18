@@ -1,25 +1,32 @@
-import { ChangeEvent, useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import './style.css'
 import axios from 'axios'
+
 export const PokemonDetails = () => {
-
-
+  const [isloading, setIsLoading] = useState(false)
   const [inputPokeNumber, setinputPokeNumber] = useState(25);
   const [Pokename, setPokename] = useState("");
   const [PokeType, setPokeType] = useState([]);
   const [PokeImage, setPokeImage] = useState("")
-  const [isloading, setIsLoading] = useState(false)
   const typesArray: any = []
 
   function atualizaInfo(){
-    let entrada = parseInt((document.getElementById("Input") as HTMLInputElement).value)
-    const mensagem = `
+    const entrada = parseInt((document.getElementById("Input") as HTMLInputElement).value)
+    const errorMessage = `
     Insira um valor válido!
 
     --> [ Os Pokemons vão de 1 até 1010 ]
     `
-    entrada ? (entrada > 0 && entrada < 1010 ? setinputPokeNumber(entrada):(setTimeout(()=>{alert(mensagem)},500)) ) : setinputPokeNumber(25)
-  }
+    if (entrada){
+      (entrada > 0 && entrada < 1010)?
+      setinputPokeNumber(entrada)
+      :
+      setTimeout(() => alert(errorMessage),500)
+    } else {
+      setinputPokeNumber(25)
+    }
+  } 
+  
 
   const fetchPokemon = async () => {
     setIsLoading(true)
@@ -36,12 +43,9 @@ export const PokemonDetails = () => {
       });
       
       setPokeType(typesArray)
-      setTimeout(() => {
-        setIsLoading(false)           
-      }, 1000);
+      setIsLoading(false)           
 
     } catch (error) {
-      // alert(error);
       setIsLoading(false)
       throw error;
     }
@@ -57,16 +61,21 @@ export const PokemonDetails = () => {
     <>
     <div className="container_Card">
         <div className="container_left">
-            <div className="name style_fields">
-                {isloading ? <p>Loading...</p> : <p>{Pokename}</p>}
-            </div>
-            <div>
-                {isloading ? <p className="pokedexCardImage style_fields">Loading Image...</p> : <img className="pokedexCardImage style_fields" src={PokeImage}/>}
-            </div>
-            <div className="info style_fields">
-                {isloading ? <p >Loading Types...</p> : <p>{PokeType}</p>}
-            </div>
-            <input type={"number"} className="input style_fields" id="Input" onChange={atualizaInfo} placeholder="Search by number (1, 1010)"/>
+           
+            {isloading ?
+              <>
+              <p className="name style_fields">Loading...</p>
+              <p className="pokedexCardImage style_fields">Loading Image...</p>
+              <p className="info style_fields">Loading Types...</p>
+              </>
+              :
+              <>
+              <p className="name style_fields">{Pokename}</p>
+              <img className="pokedexCardImage style_fields" src={PokeImage}/>
+              <p className="info style_fields">{PokeType}</p>
+              </>
+            }
+        <input type={"number"} className="input style_fields" id="Input" onChange={atualizaInfo} placeholder="Search by number (1, 1010)"/>
         </div>
 
         <div className="container_right"></div>
