@@ -56,15 +56,15 @@ export const PokemonDetails = () => {
         <div className="container_left">
             {isloading ?
               <>
-              <p className="name style_fields">Loading...</p>
-              <p className="pokedexCardImage style_fields">Loading Image...</p>
-              <p className="info style_fields">Loading Types...</p>
+              <p className="name">Loading...</p>
+              <p className="pokemonCardImage">Loading Image...</p>
+              <p className="type">Loading Types...</p>
               </>
               :
               <>
-              <p className="name style_fields">{Pokename}</p>
-              <img className="pokedexCardImage style_fields" src={PokeImage}/>
-              <p className="info style_fields">{PokeType}</p>
+              <p className="name">{Pokename}</p>
+              <img className="pokemonCardImage" src={PokeImage}/>
+              <p className="type">{PokeType}</p>
               </>
             }
         <input type={"number"} className="input style_fields" id="Input" onChange={atualizaInfo} placeholder="Search by number (1, 1010)"/>
