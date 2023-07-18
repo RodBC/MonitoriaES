@@ -8,6 +8,7 @@ export const PokemonDetails = () => {
   const [Pokename, setPokename] = useState("");
   const [PokeType, setPokeType] = useState([]);
   const [PokeImage, setPokeImage] = useState("")
+  const [isloading, setIsLoading] = useState(false)
   const typesArray: any = []
 
   function atualizaInfo(){
@@ -21,12 +22,13 @@ export const PokemonDetails = () => {
   }
 
   const fetchPokemon = async () => {
+    setIsLoading(true)
     try {
       const {data} = await axios.get(`https://pokeapi.co/api/v2/pokemon/${inputPokeNumber}`)
       
       const {name, types, sprites} = data;
       
-      setPokename(name)
+      setPokename(`${name} - ${inputPokeNumber}`)
       setPokeImage(sprites.other.dream_world.front_default)
   
       types.forEach((e:any) => {
@@ -34,8 +36,14 @@ export const PokemonDetails = () => {
       });
       
       setPokeType(typesArray)
+      setTimeout(() => {
+        setIsLoading(false)           
+      }, 1000);
+
     } catch (error) {
-      throw error
+      // alert(error);
+      setIsLoading(false)
+      throw error;
     }
   }
   
@@ -49,9 +57,15 @@ export const PokemonDetails = () => {
     <>
     <div className="container_Card">
         <div className="container_left">
-            <div className="name style_fields">{Pokename}</div>
-            <img className="pokedexCardImage style_fields" src={PokeImage}/>
-            <div className="info style_fields">{PokeType}</div>
+            <div className="name style_fields">
+                {isloading ? <p>Loading...</p> : <p>{Pokename}</p>}
+            </div>
+            <div>
+                {isloading ? <p className="pokedexCardImage style_fields">Loading Image...</p> : <img className="pokedexCardImage style_fields" src={PokeImage}/>}
+            </div>
+            <div className="info style_fields">
+                {isloading ? <p >Loading Types...</p> : <p>{PokeType}</p>}
+            </div>
             <input type={"number"} className="input style_fields" id="Input" onChange={atualizaInfo} placeholder="Search by number (1, 1010)"/>
         </div>
 
