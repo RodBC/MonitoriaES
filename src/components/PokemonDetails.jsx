@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
-import './style.css'
 import axios from 'axios'
+import {PokemonCard} from './pokemonCard/pokemonCard'
 
 export const PokemonDetails = () => {
   const [isloading, setIsLoading] = useState(false)
@@ -8,10 +8,10 @@ export const PokemonDetails = () => {
   const [Pokename, setPokename] = useState("");
   const [PokeType, setPokeType] = useState([]);
   const [PokeImage, setPokeImage] = useState("")
-  const typesArray: any = []
+  const typesArray = []
 
   function atualizaInfo(){
-    const entrada = parseInt((document.getElementById("Input") as HTMLInputElement).value)
+    const entrada = parseInt(document.getElementById("Input").value)
     const errorMessage = `
     Insira um valor válido!
 
@@ -35,7 +35,7 @@ export const PokemonDetails = () => {
 
       setPokename(`${name} - ${inputPokeNumber}`)
       setPokeImage(sprites.other.dream_world.front_default)
-      types.forEach((e:any) => {
+      types.forEach((e) => {
         typesArray.push(e.type.name + ', ')
       });
       setPokeType(typesArray)
@@ -51,27 +51,7 @@ export const PokemonDetails = () => {
   }, [inputPokeNumber])
 
   return (
-    <>
-    <div className="container_Card">
-        <div className="container_left">
-            {isloading ?
-              <>
-              <p className="name">Loading...</p>
-              <p className="pokemonCardImage">Loading Image...</p>
-              <p className="type">Loading Types...</p>
-              </>
-              :
-              <>
-              <p className="name">{Pokename}</p>
-              <img className="pokemonCardImage" src={PokeImage}/>
-              <p className="type">{PokeType}</p>
-              </>
-            }
-        <input type={"number"} className="input style_fields" id="Input" onChange={atualizaInfo} placeholder="Search by number (1, 1010)"/>
-        </div>
-        <div className="container_right"></div>
-    </div>
-    </>
+    <PokemonCard Pokename={Pokename} PokeImage={PokeImage} PokeType={PokeType} atualizaInfo={atualizaInfo} isloading={isloading}/>
   )
 }
 
