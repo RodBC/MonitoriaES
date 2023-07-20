@@ -1,64 +1,45 @@
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-.container_Card{
-  width: 600px;
-  height: 360px;
-  background-color: rgb(192, 35, 35);
-  border-radius: 10px;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-  display: flex;
-  align-items: center;
-  /* flex-direction: row; */
+.leftSideScreen{
+  width:100vw;
+  height: 100vh;
 }
-.pokemonList{
+.divAtualizar{
+  background-color: #51dcff;
+  width: 100%;
+  height:50vh;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
-
 }
-.pokedexTitle{
-  background-color: blue;
+.atualizarPokemon, .inputNumber{
+  width: 50%;
+  border-radius: 5px;
 }
 .pokemonInfo{
   display: flex;
-  width: 50%;
-  height: 100%;
-  padding: 25px;
-  border-radius: 10px;
-  flex-direction: column;
-  justify-content: space-evenly;
-  align-items: center;
-}
-  p, img, input{
   width: 100%;
-  height: 25px;
+  height:50vh;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: blueviolet;
+}
+
+  .PokeName, .pokemonCardImage,.Poketype{
+  width: 50%;
+  height: 5%;
   border: 3px groove white;
   border-radius: 8px;
   background-image: linear-gradient(180deg, #51dcff 0%, #bcecff 80%);  
 } 
-.name{
+.PokeName{
   text-align: center;
   text-transform: capitalize;
   font-weight: bold;
 }
-.type{
-  justify-content: space-between;
-  padding-left: 5px;
-}
-.input{
-  outline: none;
-  padding-left: 5px;
-}
-.input::placeholder{
-  color: black;
-}
 .pokemonCardImage {
-  width: 250px;
-  height: 150px;
-  padding: 15px;   
+  width: 50%;
+  height: 50%;
   align-items: center;
   justify-content: center;
 }
