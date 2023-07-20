@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
-import {PokemonCard} from '../PokemonCard/pokemonCard'
+import {PokemonCard} from './PokemonCard/pokemonCard'
 
 export const PokemonDetails = () => {
   const [isloading, setIsLoading] = useState(false)

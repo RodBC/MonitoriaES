@@ -1,38 +1,38 @@
+import { useEffect, useState } from 'react'
 import './style.css'
+import axios from 'axios'
+
 export const PokemonList = () => {
 
-    // const [pokemonListNumber, setPokemonListNumber] = useState(20)
-    
-    // const fetchPokemon = async () => {
-    //     setIsLoading(true)
-    //     let lista_numero = 20
-    //     buttonClick? lista_numero = lista_numero+20 : null;
-    //     try {
-    //       const receiveList = `https://pokeapi.co/api/v2/pokemon/?offset=20&limit=${lista_numero}`
-    //       const {data} = await axios.get(`https://pokeapi.co/api/v2/pokemon/${inputPokeNumber}`)
-    //       const {name, types, sprites} = data;
-    
-    //       setPokename(`${name} - ${inputPokeNumber}`)
-    //       setPokeImage(sprites.other.dream_world.front_default)
-    //       types.forEach((e) => {
-    //         typesArray.push(e.type.name + ', ')
-    //       });
-    //       setPokeType(typesArray)
-    //       setIsLoading(false)           
-    //     } catch (error) {
-    //       setIsLoading(false)
-    //       throw error;
-    //     }
-    //   }
+  const [pokemonListNumber, setPokemonListNumber] = useState(20)
+  const [pokemonList, setPokemonList] = useState({})
+  
+
+    const fetchPokemonList = async () => {
+      try {
+          const receiveList =  await axios.get(`https://pokeapi.co/api/v2/pokemon/?offset=20&limit=${pokemonListNumber}`)
+          receiveList.data.results.map((e =>{
+            console.log(e.name)
+          }))
+          console.log('-')
+          
+          setPokemonList(receiveList)
+
+        } catch (error) {
+          alert(error)
+          throw error;
+        }
+      }
       
-    //   useEffect(() => {
-    //     fetchPokemon()
-    //   }, [inputPokeNumber])
+      useEffect(() => {
+        fetchPokemonList()
+      }, [pokemonListNumber])
     
 
     return(
         <div className="rightSideScreen">
-          <p>aksd</p>
+          <button onClick={() => setPokemonListNumber(pokemonListNumber+20)}>mais 20</button>
+          {pokemonListNumber}
         </div>
 
     )
