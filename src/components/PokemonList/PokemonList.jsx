@@ -1,23 +1,24 @@
 import { useEffect, useState } from 'react'
 import './style.css'
 import axios from 'axios'
+import { PokemonMinCard } from './PokemonMinCard/PokemonMinCard'
 
 export const PokemonList = () => {
 
   const [pokemonListNumber, setPokemonListNumber] = useState(20)
-  const [pokemonList, setPokemonList] = useState({})
+  const [pokemonList, setPokemonList] = useState([])
   
 
     const fetchPokemonList = async () => {
+      let pokemonTempList = []
       try {
           const receiveList =  await axios.get(`https://pokeapi.co/api/v2/pokemon/?offset=20&limit=${pokemonListNumber}`)
           receiveList.data.results.map((e =>{
-            console.log(e.name)
+            pokemonTempList.push(e.name)
           }))
-          console.log('-')
           
-          setPokemonList(receiveList)
-
+          setPokemonList(pokemonTempList)
+          console.log(pokemonTempList)
         } catch (error) {
           alert(error)
           throw error;
@@ -32,7 +33,10 @@ export const PokemonList = () => {
     return(
         <div className="rightSideScreen">
           <button onClick={() => setPokemonListNumber(pokemonListNumber+20)}>mais 20</button>
-          {pokemonListNumber}
+          {pokemonList.map((e) => {
+            return(
+            <PokemonMinCard pokemonName={e}/>)
+          })}
         </div>
 
     )
